@@ -14,14 +14,10 @@
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
-        <td></td>
     </tr>
     <tr>
         <td>2</td>
         <td>✓</td>
-        <td></td>
-        <td></td>
         <td></td>
         <td></td>
         <td></td>
