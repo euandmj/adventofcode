@@ -9,6 +9,6 @@ def total_fuel(fuel):
 
 with open("modules.txt") as f:
     modules = [int(x) for x in f.readlines()]
-
-star1 = sum(calc_fuel(x) for x in modules)
-star2 = sum(total_fuel(x) for x in modules)
+    
+star1 = sum([calc_fuel(x) for x in modules])
+star2 = sum([total_fuel(x) for x in modules])
