@@ -1,3 +1,6 @@
 *.pyc
 settings.json
+tasks.json
 launch.json
+bin/
+obj/
