@@ -10,12 +10,12 @@ namespace csharp
         private Point currentPoint;
 
         public readonly List<Instruction> Instructions;
-        public Dictionary<Point, bool> Visited;
+        public HashSet<Point> Visited;
 
         public Snake(Point origin, string[] route)
         {
             Instructions = new List<Instruction>(route.Count());
-            Visited = new Dictionary<Point, bool>();
+            Visited = new HashSet<Point>();
             currentPoint = origin;
 
             BuildInstructionSet(route);
@@ -37,14 +37,14 @@ namespace csharp
             Instructions.ForEach(x => {
                 for(int i = 0; i < x.Value; ++i){
                     currentPoint = currentPoint.Add(x.normalisedDelta);
-                    Visited.TryAdd(currentPoint, true);
+                    Visited.Add(currentPoint);
                 }
             });
         }
 
         public List<Point> CommonWith(Snake other)
         {
-            return Visited.Keys.Intersect(other.Visited.Keys).ToList();
+            return Visited.Intersect(other.Visited).ToList();
         }
     }
 
