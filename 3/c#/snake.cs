@@ -52,7 +52,6 @@ namespace csharp
         {
             int min = int.MaxValue;
 
-            
             foreach(var wire1 in a)
             {
                 var wire2 = b.First(x => x.Key == wire1.Key);
