@@ -10,12 +10,12 @@ namespace csharp
         private Point currentPoint;
 
         public readonly List<Instruction> Instructions;
-        public HashSet<Point> Visited;
+        public Dictionary<Point, int> Visited;
 
         public Snake(Point origin, string[] route)
         {
             Instructions = new List<Instruction>(route.Count());
-            Visited = new HashSet<Point>();
+            Visited = new Dictionary<Point, int>();
             currentPoint = origin;
 
             BuildInstructionSet(route);
@@ -34,17 +34,52 @@ namespace csharp
 
         public void Slither()
         {
+            int steps = 0;
             Instructions.ForEach(x => {
                 for(int i = 0; i < x.Value; ++i){
                     currentPoint = currentPoint.Add(x.normalisedDelta);
-                    Visited.Add(currentPoint);
+                    Visited.TryAdd(currentPoint, ++steps);
                 }
             });
         }
 
         public List<Point> CommonWith(Snake other)
         {
-            return Visited.Intersect(other.Visited).ToList();
+            return Visited.Keys.Intersect(other.Visited.Keys).ToList();
+        }
+
+        private int FindShortestPathSum(IEnumerable<KeyValuePair<Point, int>> a, IEnumerable<KeyValuePair<Point, int>> b)
+        {
+            int min = int.MaxValue;
+
+            
+            foreach(var wire1 in a)
+            {
+                var wire2 = b.First(x => x.Key == wire1.Key);
+
+                if(wire1.Key != wire2.Key)
+                    throw new Exception($"mismatch keys");
+
+                int localmin = wire1.Value + wire2.Value;
+
+                if(localmin < min)
+                {
+                    min = localmin;
+                }
+            }            
+
+            return min;
+        }
+
+        public int FewestIntersectSteps(Snake other)
+        {
+            var sharedKeys = CommonWith(other);
+
+            var shared1 =  this.Visited.Where(x => sharedKeys.Contains(x.Key));
+            var shared2 = other.Visited.Where(x => sharedKeys.Contains(x.Key));
+            
+
+            return FindShortestPathSum(shared1, shared2);
         }
     }
 
@@ -52,6 +87,10 @@ namespace csharp
     {
         public static Point Add(this Point a, Point b){
             return new Point(a.X + b.X, a.Y + b.Y);
+        }
+
+        public static double Manhattan(this Point a){
+            return Math.Abs(a.X) + Math.Abs(a.Y);
         }
     }
 

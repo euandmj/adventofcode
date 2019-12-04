@@ -25,16 +25,12 @@ namespace csharp
             snake1.Slither();
             snake2.Slither();
 
-            var i = snake1.CommonWith(snake2);
-
-            var smol = i.Min(x => manhattan(x));
-
-            Console.WriteLine(smol);
-        }
-        
-        static double manhattan(Point a)
-        {
-            return Math.Abs(a.X) + Math.Abs(a.Y);
+            var intersections = snake1.CommonWith(snake2);
+            var star1 = intersections.Min(x => x.Manhattan());
+            Console.WriteLine(star1);
+            
+            var star2 = snake1.FewestIntersectSteps(snake2);
+            Console.WriteLine(star2);
         }
     }
 }
