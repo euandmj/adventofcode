@@ -26,25 +26,18 @@ def match_C(x):
 def match_D(x):
     '''Part 2 only pairs allowed'''
     # find all groups of matching chars
-    # if len of any group is not % 2 = 0 
-    # ret false
-    y = str(x)
-    groups = []       
+    # if there are none 2 len groups ret false
+    y = str(x)    
     i = 0
 
     while(i < len(y) - 1):
         worker = ""
-        for j, cc in enumerate(y[i:]):
-            if cc != y[i]: break
-            worker += cc
-        if len(worker) >= 2: groups.append(worker)
+        for j, c in enumerate(y[i:]):
+            if c != y[i]: break
+            worker += c
+        if len(worker) == 2: return True
         i+=j
-    
-    for w in groups:
-        if len(w) % 2 != 0:
-            return False
-    
-    return True
+    return False
 
 
 for i in range(min,max,1):
@@ -59,5 +52,3 @@ for i in range(min,max,1):
         matches+=1
 
 print(matches)
-
-# print(match_D(11442298922))
